@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -62,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
         buttonSquare = findViewById(R.id.squareButton);
         buttonSquareRoot = findViewById(R.id.squareRootButton);
         buttonChangeSymbol = findViewById(R.id.changeSymbolButton);
+
+        button0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inputDisplay.setText(inputDisplay.getText() + "0");
+            }
+        });
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,8 +223,91 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        buttonDivideX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateReciprocal();
+            }
+        });
+
+        buttonSquareRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateSquareRoot();
+            }
+        });
+
+        buttonSquare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateSquare();
+            }
+        });
+
+        buttonChangeSymbol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeSymbol();
+            }
+        });
+
     }
 
+    //  For the Divide X Button
+    private void calculateReciprocal(){
+        if (!inputDisplay.getText().toString().isEmpty()){
+            double inputValue = Double.parseDouble(inputDisplay.getText().toString());
+            if (inputValue != 0){
+                double result = 1 / inputValue;
+                outputDisplay.setText(decimalFormat.format(result));
+                inputDisplay.setText(null);
+                firstValue = result;
+            } else {
+                Toast.makeText(this, "Cannot divide by zero!",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    //  For the Square Root Button
+    private void calculateSquareRoot() {
+        if (!inputDisplay.getText().toString().isEmpty()){
+            double inputValue = Double.parseDouble(inputDisplay.getText().toString());
+            if (inputValue >= 0){
+                double result = Math.sqrt(inputValue);
+                outputDisplay.setText(decimalFormat.format(result));
+                inputDisplay.setText(null);
+                firstValue = result;
+            } else {
+                inputDisplay.setText("");
+                outputDisplay.setText("Error: Invalid Inout!");
+            }
+        }
+
+    }
+
+    //  For the Square Button
+    private void calculateSquare(){
+        if (!inputDisplay.getText().toString().isEmpty()){
+            double inputValue = Double.parseDouble(inputDisplay.getText().toString());
+            double result = inputValue * inputValue;
+            outputDisplay.setText(decimalFormat.format(result));
+            inputDisplay.setText(null);
+            firstValue = result;
+        }
+    }
+
+    //  For the Change Symbol Button
+    private void changeSymbol(){
+        if (!inputDisplay.getText().toString().isEmpty()){
+            double inputValue = Double.parseDouble(inputDisplay.getText().toString());
+            double result = -inputValue;
+            outputDisplay.setText(decimalFormat.format(result));
+            inputDisplay.setText(null);
+            firstValue = result;
+        }
+    }
+
+    //  For the general calculations
     private void allCalculations(){
         if (!Double.isNaN(firstValue)) {
             secondValue = Double.parseDouble(inputDisplay.getText().toString());
