@@ -312,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
         if (!Double.isNaN(firstValue)) {
             secondValue = Double.parseDouble(inputDisplay.getText().toString());
             inputDisplay.setText(null);
+
             if (currentSymbol == ADDITION)
                 firstValue = this.firstValue + secondValue;
             else if (currentSymbol == SUBTRACTION)
@@ -322,11 +323,24 @@ public class MainActivity extends AppCompatActivity {
                 firstValue = this.firstValue / secondValue;
             else if (currentSymbol == PERCENT)
                 firstValue = this.firstValue % secondValue;
+
+            //  Check if more than 4 mathematical operations exist.
+            if (outputDisplay.getText().toString().split("[+//-x]").length>3){
+                Toast.makeText(this, "Max 4 operation allowed", Toast.LENGTH_SHORT).show();
+                clearCalculations();
+            }
         } else {
             try {
                 firstValue = Double.parseDouble(inputDisplay.getText().toString());
             } catch (Exception e) {
             }
         }
+    }
+
+    private void clearCalculations(){
+        firstValue = Double.NaN;
+        secondValue = Double.NaN;
+        inputDisplay.setText("");
+        outputDisplay.setText("");
     }
 }
